@@ -135,36 +135,37 @@ public class Model extends Database {
 	
 	/**
 	 * 4
-	 * Borrar un dato 
+	 * Borrar tabla 
 	 */
-	  public void borrarDatoTabla(String table,int ident) {
-	        
-	        Connection connection = null;
-	        
-	        try {
-	            connection = DriverManager.getConnection(getUrl());
-	            
-	            // Con este objeto hacemos consultas de SQL
-	            Statement statement = connection.createStatement();
-	            // No es obligatorio pero es bueno para dejar de buscar la BBDD
-	            statement.setQueryTimeout(30); // set timeout to 30 sec.
-	            
-	            
-	            String sql = "DROP TABLE"+table;
-	            //String sql = "DELETE FROM "+table+" WHERE id ="+ident;
-	            
-	            statement.executeUpdate(sql);
-	            
-	            statement.close();
-	            
-	            
-	        } catch (SQLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+public void borrarTabla(String table) {
+		
+		Connection connection = null;
+		
+		try {
+			connection = DriverManager.getConnection(getUrl());
+			
+			// Con este objeto hacemos consultas de SQL
+			Statement statement = connection.createStatement();
+			// No es obligatorio pero es bueno para dejar de buscar la BBDD
+			statement.setQueryTimeout(30); // set timeout to 30 sec.
+			
+			// executeUpdate para todas menos las de SELECT, porque no devuelve datos
+			String sql = "DROP TABLE IF EXISTS "+table;
+			//String sql = "DROP TABLE "+table;
+			//String sql = "DELETE FROM "+table+" WHERE id ="+ident;
+			
+			statement.executeUpdate(sql);
+			
+			statement.close();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	        
-	        
-	    }
-	
+		
+		
+	}
+
 }
